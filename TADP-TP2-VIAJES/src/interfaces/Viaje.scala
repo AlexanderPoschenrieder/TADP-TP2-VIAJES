@@ -1,6 +1,6 @@
 package interfaces
 
-//comment prueba de Lautaro
+//comment prueba de Lautaro 
 class Viaje {
 
 }
