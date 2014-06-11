@@ -1,5 +1,7 @@
 package transportes
+import mapa._
 
 trait Transporte {
-	def precios: List[Float]
+	var linea:String
+	var recorrido:Recorrido
 }

@@ -1,5 +1,4 @@
 package transportes
 
-class Tren extends Transporte {
-
+class Tren {
 }

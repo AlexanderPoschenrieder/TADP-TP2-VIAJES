@@ -1,5 +1,5 @@
 package viaje
 
-class ViajeMultiple {
+class ViajeMultiple extends Viaje {
 	var viajes: List[Viaje]
 }
