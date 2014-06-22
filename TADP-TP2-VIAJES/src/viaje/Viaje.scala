@@ -7,5 +7,5 @@ class Viaje {
 	var direccionInicio: Direccion
 	var direccionFinal: Direccion
 	var transporte: Transporte
-	
+	//Hola
 }
