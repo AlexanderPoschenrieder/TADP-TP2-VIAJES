@@ -1,4 +1,0 @@
-package transportes
-
-class Tren {
-}

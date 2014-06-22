@@ -1,5 +1,0 @@
-package transportes
-
-class Colectivo {
-
-}
