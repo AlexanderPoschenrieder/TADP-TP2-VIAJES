@@ -15,7 +15,7 @@ object MenorCosto extends Criterio {
         tarifaConDescuento = unUsuario.calcularDescuento(unRecorrido)
         tarifaConDescuentoAnt = unUsuario.calcularDescuento(recorridoSeleccionado)
 
-        if (tarifaConDescuentoAnt < tarifaConDescuento) {
+        if (tarifaConDescuento < tarifaConDescuentoAnt) {
           recorridoSeleccionado = unRecorrido
         }
       }
