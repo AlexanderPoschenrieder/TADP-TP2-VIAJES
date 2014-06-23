@@ -10,7 +10,7 @@ class ViajesTest {
 
   @Test
   def moduloTransporteTest() = {
-//    var unUsuario: Usuario = new Usuario(new Discapacitado())
+//    var unUsuario: Usuario = new Usuario(new Discapacitado(), new MenorCosto())
 //
 //    Assert.assertEquals(0, unUsuario.descuento)
   }

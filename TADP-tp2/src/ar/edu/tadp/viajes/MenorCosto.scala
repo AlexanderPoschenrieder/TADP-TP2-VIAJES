@@ -1,32 +1,26 @@
 package ar.edu.tadp.viajes
 
 object MenorCosto extends Criterio {
-  override def armarRecorrido(origen: Direccion, destino: Direccion): List[TransporteCerca] = {
-    var mediosCercaOrigen: List[TransporteCerca] = ModuloTransporte.mediosTransporteCerca(origen)
-    var mediosCercaDestino: List[TransporteCerca] = ModuloTransporte.mediosTransporteCerca(destino)
-    var mediosPosibles: List[TransporteCerca] = chequearMedios(mediosCercaOrigen, mediosCercaDestino)
+  override def seleccionarRecorrido(recorridos: List[List[Tramo]], unUsuario: Usuario): List[Tramo] = {
+    var recorridoSeleccionado: List[Tramo] = null
+    var tarifaConDescuento: Float = 0
+    var tarifaConDescuentoAnt: Float = 0
+    var first: Boolean = true
 
-//    if (mediosPosibles.isEmpty) {
-//      //Logica de combinacion
-//    } else if (mediosPosibles.length == 1) {
-      return mediosPosibles
-//    } else {
-//      //Logica del criterio
-//
-//    }
-  }
+    for (unRecorrido <- recorridos) {
+      if (first) {
+        recorridoSeleccionado = unRecorrido
+        first = false
+      } else {
+        tarifaConDescuento = unUsuario.calcularDescuento(unRecorrido)
+        tarifaConDescuentoAnt = unUsuario.calcularDescuento(recorridoSeleccionado)
 
-  private def chequearMedios(mediosOrigen: List[TransporteCerca], mediosDestino: List[TransporteCerca]): List[TransporteCerca] = {
-    var mediosPosibles: List[TransporteCerca] = List()
-
-    for (a <- mediosOrigen) {
-      for (b <- mediosDestino) {
-        if (a.transporte.esIgual(b.transporte)) {
-          mediosPosibles = b :: mediosPosibles
+        if (tarifaConDescuentoAnt < tarifaConDescuento) {
+          recorridoSeleccionado = unRecorrido
         }
       }
     }
 
-    return mediosPosibles
+    return recorridoSeleccionado
   }
 }

@@ -1,7 +1,7 @@
 package ar.edu.tadp.viajes
 
 abstract class Criterio {
-  def armarRecorrido(origen: Direccion, destino: Direccion): List[TransporteCerca] = {
+  def seleccionarRecorrido(recorridos: List[List[Tramo]], unUsuario: Usuario): List[Tramo] = {
     return List()
   }
 }

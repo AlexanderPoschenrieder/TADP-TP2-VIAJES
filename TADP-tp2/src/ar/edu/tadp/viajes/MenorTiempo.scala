@@ -1,7 +1,7 @@
 package ar.edu.tadp.viajes
 
 object MenorTiempo extends Criterio {
-  override def armarRecorrido(origen: Direccion, destino: Direccion): List[TransporteCerca] = {
+  override def seleccionarRecorrido(recorridos: List[List[Tramo]], unUsuario: Usuario): List[Tramo] = {
     return List()
   }
 }

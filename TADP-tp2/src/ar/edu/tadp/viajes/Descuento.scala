@@ -1,7 +1,7 @@
 package ar.edu.tadp.viajes
 
 abstract class Descuento {
-  def calcularDescuento(tarifa: Float): Float = {
+  def calcularDescuento(camino: List[Tramo], unUsuario: Usuario): Float = {
     return 0
   }
 }
