@@ -1,21 +1,33 @@
 package ar.edu.tadp.viajes
 
 class Viaje(var origen: Direccion, var destino: Direccion, var usuario: Usuario) {
-  def armarRecorrido() = {
+  def armarRecorrido(): List[Tramo] = {
     var mediosCercaOrigen: List[TransporteCerca] = ModuloTransporte.mediosTransporteCerca(origen)
     var mediosCercaDestino: List[TransporteCerca] = ModuloTransporte.mediosTransporteCerca(destino)
     var mediosPosibles: List[TransporteCerca] = chequearMedios(mediosCercaOrigen, mediosCercaDestino)
+    var posiblesRecorridos: List[List[Tramo]] = List()
+    var unRecorrido: List[Tramo] = null
 
-    if (mediosPosibles.isEmpty) { //Logica de combinacion
-      //      return List()
-    } else if (mediosPosibles.length == 1) {
-      var transporteElegidoFiltrado: List[TransporteCerca] = mediosCercaDestino.filter(p => p.transporte.esIgual(mediosPosibles.head.transporte))
-      var transporteElegido: TransporteCerca = transporteElegidoFiltrado.head
-      var unTramo: Tramo = new Tramo(transporteElegido.transporte, mediosPosibles.head.direccion, transporteElegido.direccion)
-      //      return List(unTramo)
-    } else {
-      //      usuario.criterio.armarRecorrido(origen, destino)
+    for (a <- mediosPosibles) {
+      unRecorrido = List()
+      unRecorrido = crearTramo(mediosCercaDestino, a) :: unRecorrido
+      posiblesRecorridos = unRecorrido :: posiblesRecorridos
     }
+
+    if (posiblesRecorridos.isEmpty) { //Logica de combinacion
+      return List()
+    } else if (posiblesRecorridos.length == 1) {
+      return posiblesRecorridos.head
+    } else {
+      return usuario.seleccionarRecorrido(posiblesRecorridos)
+    }
+  }
+
+  private def crearTramo(mediosCercaDestino: List[TransporteCerca], medioPosible: TransporteCerca): Tramo = {
+    var transporteElegidoFiltrado: List[TransporteCerca] = mediosCercaDestino.filter(p => p.transporte.esIgual(medioPosible.transporte))
+    var transporteElegido: TransporteCerca = transporteElegidoFiltrado.head
+
+    return new Tramo(transporteElegido.transporte, medioPosible.direccion, transporteElegido.direccion)
   }
 
   def calcularCosto(): Float = {
