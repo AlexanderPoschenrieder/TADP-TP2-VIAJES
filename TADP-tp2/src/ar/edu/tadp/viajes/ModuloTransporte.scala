@@ -12,7 +12,7 @@ object ModuloTransporte {
     return retVal
   }
 
-  def puedeCombinar(lineaA: Int, lineaB: Int): Direccion = {
+  def puedeCombinar(lineaA: Transporte, lineaB: Transporte): Direccion = {
     return null
   }
 

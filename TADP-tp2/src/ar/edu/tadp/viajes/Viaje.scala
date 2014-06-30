@@ -8,10 +8,14 @@ class Viaje(var origen: Direccion, var destino: Direccion, var usuario: Usuario)
     var posiblesRecorridos: List[List[Tramo]] = List()
     var unRecorrido: List[Tramo] = null
 
-    for (a <- mediosPosibles) {
-      unRecorrido = List()
-      unRecorrido = crearTramo(mediosCercaDestino, a) :: unRecorrido
-      posiblesRecorridos = unRecorrido :: posiblesRecorridos
+    if (mediosPosibles.isEmpty) {
+      posiblesRecorridos = buscarCombinacion(mediosCercaOrigen, mediosCercaDestino)
+    } else {
+      for (a <- mediosPosibles) {
+        unRecorrido = List()
+        unRecorrido = crearTramo(mediosCercaDestino, a) :: unRecorrido
+        posiblesRecorridos = unRecorrido :: posiblesRecorridos
+      }
     }
 
     if (posiblesRecorridos.isEmpty) { //Logica de combinacion
@@ -21,6 +25,33 @@ class Viaje(var origen: Direccion, var destino: Direccion, var usuario: Usuario)
     } else {
       return usuario.seleccionarRecorrido(posiblesRecorridos)
     }
+  }
+
+  private def buscarCombinacion(mediosCercaOrigen: List[TransporteCerca], mediosCercaDestino: List[TransporteCerca]): List[List[Tramo]] = {
+    var direccionCombinacion: Direccion = null
+    var recorridos: List[List[Tramo]] = List()
+    var unRecorrido: List[Tramo] = List()
+    var unTramo: Tramo = null
+    var medioTransporteCerca: List[TransporteCerca] = null
+    var transporteElegidoFiltrado: List[TransporteCerca] = null
+
+    for (unMedioOrigen <- mediosCercaOrigen) {
+      for (unMedioDestino <- mediosCercaDestino) {
+        direccionCombinacion = ModuloTransporte.puedeCombinar(unMedioOrigen.transporte, unMedioDestino.transporte)
+
+        if (direccionCombinacion != null) {
+          unTramo = new Tramo(unMedioOrigen.transporte, unMedioOrigen.direccion, direccionCombinacion)
+          unRecorrido = unTramo :: unRecorrido
+          medioTransporteCerca = ModuloTransporte.mediosTransporteCerca(direccionCombinacion)
+          transporteElegidoFiltrado = medioTransporteCerca.filter(p => p.transporte.esIgual(unMedioDestino.transporte))
+          unTramo = new Tramo(transporteElegidoFiltrado.head.transporte, transporteElegidoFiltrado.head.direccion, unMedioDestino.direccion)
+          unRecorrido = unTramo :: unRecorrido
+          recorridos = unRecorrido :: recorridos
+        }
+      }
+    }
+
+    return recorridos
   }
 
   private def crearTramo(mediosCercaDestino: List[TransporteCerca], medioPosible: TransporteCerca): Tramo = {
